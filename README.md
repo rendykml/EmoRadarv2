@@ -1,69 +1,32 @@
-🎯 EmoRadar - Facial Expression Analysis
-EmoRadar adalah aplikasi berbasis web yang menggunakan teknologi Face API untuk mendeteksi ekspresi wajah secara real-time dari kamera pengguna. Dirancang untuk kebutuhan pembelajaran, monitoring emosi, hingga keperluan presentasi interaktif yang canggih.
+# 🎯 EmoRadar - Facial Expression Analysis
 
-<!-- Ganti dengan gambar antarmuka jika tersedia -->
+EmoRadar adalah aplikasi berbasis web yang menggunakan teknologi **Face API** untuk mendeteksi ekspresi wajah secara real-time dari kamera pengguna. Dirancang untuk kebutuhan pembelajaran, monitoring emosi, hingga keperluan presentasi interaktif yang canggih.
 
-🚀 Fitur Unggulan
-🎥 Deteksi Wajah Real-Time dari kamera depan
+![EmoRadar Screenshot](preview.png)
 
-😊 Analisis Ekspresi: Bahagia, Sedih, Marah, Takut, Terkejut, dan lainnya
+## 🚀 Fitur Unggulan
 
-🧠 Prediksi Usia & Landmark Wajah
+- 🎥 **Deteksi Wajah Real-Time** dari kamera depan
+- 😊 **Analisis Ekspresi**: Bahagia, Sedih, Marah, Takut, Terkejut, dan lainnya
+- 🧠 **Prediksi Usia & Landmark Wajah**
+- 📊 **Ringkasan Ekspresi** kelas (summary)
+- 🔔 **Notifikasi Ekspresi Dominan**
+- 🎁 **Reward Emosi Positif**
+- 🕒 **Timer Kelas + Status Hadir**
+- 🧪 **Kontrol Dinamis**: Sembunyikan/lihat fitur ekspresi, usia, landmark
 
-📊 Ringkasan Ekspresi kelas (summary)
+## 🛠️ Teknologi yang Digunakan
 
-🔔 Notifikasi Ekspresi Dominan
+- `HTML5`, `Tailwind CSS` untuk tampilan responsif & modern
+- `JavaScript` + [`face-api.js`](https://github.com/justadudewhohacks/face-api.js)
+- Desain animatif dan ringan untuk pengalaman yang mulus
 
-🎁 Reward Emosi Positif
+## 📦 Instalasi Lokal
 
-🕒 Timer Kelas + Status Hadir
+> 💡 Tidak perlu server backend – sepenuhnya berjalan di sisi client.
 
-🧪 Kontrol Dinamis: Sembunyikan/lihat fitur ekspresi, usia, landmark
+### 1. Clone Repository
 
-🛠️ Teknologi yang Digunakan
-HTML5, Tailwind CSS untuk tampilan responsif & modern
-
-JavaScript + face-api.js untuk deteksi wajah dan ekspresi
-
-Desain animatif dan ringan untuk pengalaman yang mulus
-
-📦 Instalasi Lokal
-💡 Tidak perlu server backend – sepenuhnya berjalan di sisi client.
-
-1. Clone Repository
-bash
-Copy
-Edit
+```bash
 git clone https://github.com/username/emoradar.git
 cd emoradar
-2. Buka dengan Live Server
-Gunakan ekstensi Live Server pada VS Code, atau buka index.html secara langsung di browser (disarankan Chrome).
-
-3. Izinkan Akses Kamera
-Pastikan browser memberikan izin akses kamera ke aplikasi.
-
-📷 Tampilan Antarmuka
-Deteksi Ekspresi	Log Ekspresi
-
-🧪 Mode Kontrol
-Tombol	Fungsi
-🎛️ Hide Age	Sembunyikan prediksi usia
-🎛️ Hide Landmarks	Sembunyikan titik wajah
-🎛️ Hide Expressions	Nonaktifkan tampilan ekspresi
-🧹 Clear Log	Bersihkan riwayat ekspresi
-
-💡 Penggunaan Potensial
-Monitoring kehadiran dan emosi siswa di kelas
-
-Penelitian psikologi dan pendidikan
-
-Alat interaktif untuk presentasi atau workshop
-
-Eksperimen face recognition berbasis browser
-
-📄 Lisensi
-MIT License © 2025 Rendy Kamaluddin
-
-🙌 Kontribusi
-Pull Request dan saran selalu terbuka! Jika kamu punya ide fitur baru, jangan ragu untuk buat issue.
-
