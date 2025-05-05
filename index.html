@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EmoRadar - Facial Expression Analysis</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+    <style>
+      @keyframes fadeInUp {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .animate-fade-in-up {
+        animation: fadeInUp 0.3s ease-out forwards;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50 text-blue-900 font-sans">
+    <!-- Loading Overlay -->
+    <div id="loading" class="fixed inset-0 bg-white/90 backdrop-blur-md flex items-center justify-center z-50">
+      <div class="bg-gradient-to-r from-blue-100 to-blue-50 p-8 rounded-xl border border-blue-200 shadow-lg max-w-md mx-auto text-center">
+        <div class="mb-5">
+          <div class="w-16 h-16 mx-auto border-4 border-blue-200 border-t-blue-500 rounded-full animate-spin"></div>
+        </div>
+        <h3 class="text-xl font-semibold text-blue-800 mb-2">Loading Face API Models</h3>
+        <p class="text-blue-600">Please wait while we initialize the facial recognition technology...</p>
+      </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="bg-white shadow-sm border-b border-blue-100 sticky top-0 z-50">
+      <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+        <div class="flex items-center space-x-2">
+          <span class="text-3xl">📷</span>
+          <h1 class="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
+            EmoRadar
+          </h1>
+        </div>
+        
+        
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Video Detection Section -->
+        <div class="lg:col-span-2 space-y-6">
+          <!-- Video Container -->
+          <div class="bg-white rounded-2xl overflow-hidden border border-blue-200 shadow-lg">
+            <div id="video-container" class="relative">
+              <video id="video" autoplay muted playsinline class="w-full h-full object-cover"></video>
+              <canvas id="overlay" class="absolute top-0 left-0 w-full h-full"></canvas>
+              
+              <!-- Attendance Status -->
+              <div id="attendance-status" class="absolute top-4 right-4 bg-blue-500 text-white px-3 py-1 rounded-full text-sm hidden">
+                Present
+              </div>
+            </div>
+            <div class="bg-blue-50 px-4 py-3 border-t border-blue-100 flex justify-between items-center">
+              <span class="text-sm text-blue-600">Camera: Front</span>
+              <div class="flex space-x-2">
+                <div class="flex items-center space-x-4">
+                  <!-- Class Timer -->
+                  <div id="class-timer" class="hidden text-blue-600 font-medium">
+                    <span class="mr-2">⏱</span>
+                    <span id="timer-display">00:00:00</span>
+                  </div>
+                  
+                  <!-- Class Status -->
+                  <div id="class-status" class="flex items-center space-x-2 text-gray-500">
+                    <span id="status-icon">⏸</span>
+                    <span id="status-text">Class Not Started</span>
+                  </div>
+                  
+                  <!-- Start/End Class Button -->
+                  <button id="toggle-class" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors">
+                    Start Class
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Controls -->
+          <div class="bg-white rounded-xl p-4 border border-blue-200 shadow-lg">
+            <h2 class="text-lg font-semibold mb-3 text-blue-800">Controls</h2>
+            <div class="flex flex-wrap gap-3">
+              <button id="toggle-age" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white transition-all duration-300">
+                <span>Hide Age</span>
+              </button>
+              <button id="toggle-landmarks" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white transition-all duration-300">
+                <span>Hide Landmarks</span>
+              </button>
+              <button id="toggle-expressions" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white transition-all duration-300">
+                <span>Hide Expressions</span>
+              </button>
+              <button id="clear-log" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600 text-white transition-all duration-300">
+                <span>Clear Log</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Side Panel -->
+        <div class="flex flex-col gap-6">
+          <!-- Dominant Expression -->
+          <div id="dominant-expression" class="bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl border border-blue-200 shadow-lg p-5">
+            <h2 class="text-lg font-semibold mb-2 text-blue-800">Dominant Expression</h2>
+            <div class="flex items-center justify-center h-20">
+              <span id="dominant-value" class="text-3xl font-bold text-center text-blue-600">-</span>
+            </div>
+          </div>
+
+          <!-- Expression Summary -->
+          <div id="expression-summary" class="bg-white rounded-xl border border-blue-200 shadow-lg p-5 hidden">
+            <h2 class="text-lg font-semibold mb-3 text-blue-800">Class Summary</h2>
+            <div class="space-y-2">
+              <!-- Summary content will be populated by JavaScript -->
+            </div>
+          </div>
+
+          <!-- Expression Log -->
+          <div class="bg-white rounded-xl border border-blue-200 shadow-lg h-full min-h-[300px] flex flex-col">
+            <div class="p-4 border-b border-blue-100">
+              <h2 class="text-lg font-semibold text-blue-800">Expression Log</h2>
+            </div>
+            <div id="expression-log" class="p-4 overflow-y-auto flex-1">
+              <ul id="log-list" class="space-y-2"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Notification -->
+    <div id="expression-notification" class="fixed right-6 bottom-20 z-50 hidden animate-fade-in-up">
+      <div class="bg-gradient-to-r from-blue-600/90 to-blue-500/90 backdrop-blur-md px-6 py-4 rounded-lg border border-blue-300/40 shadow-lg shadow-blue-500/20 min-w-[260px]">
+        <p class="text-white text-lg"></p>
+      </div>
+    </div>
+
+    <!-- Reward Effect -->
+    <div id="reward-effect" class="fixed inset-0 pointer-events-none z-50 hidden items-center justify-center">
+      <div class="text-7xl font-bold animate-pulse text-blue-400 text-center">
+        <span class="inline-block animate-bounce">😊</span>
+        <div class="text-3xl mt-4 text-center text-blue-500">
+          Keren tetap semangat ya!
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
