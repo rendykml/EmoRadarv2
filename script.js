@@ -46,6 +46,54 @@ document.addEventListener("DOMContentLoaded", () => {
     disgusted: 0,
   };
 
+  const emotionCounts = {
+    happy: 0,
+    sad: 0,
+    angry: 0,
+    surprised: 0,
+    neutral: 0,
+    disgusted: 0,
+    fearful: 0,
+  };
+
+  function updateEmotionStats() {
+    const statsDiv = document.getElementById("emotion-stats");
+    statsDiv.innerHTML = "";
+    Object.entries(emotionCounts).forEach(([emotion, count]) => {
+      const stars = "★".repeat(Math.min(count, 5));
+      statsDiv.innerHTML += `
+      <div class="text-center">
+        <div class="text-lg font-bold">${stars}</div>
+        <div class="capitalize">${emotion}</div>
+        <div class="text-blue-600">${count}</div>
+      </div>
+    `;
+    });
+  }
+
+  // Panggil updateEmotionStats() setiap kali deteksi emosi berhasil
+  // Misal, setelah mendeteksi emosi:
+ 
+  updateEmotionStats();
+  // ...existing code...
+  function updateEmotionStats() {
+    const statsDiv = document.getElementById("emotion-stats");
+    if (!statsDiv) return;
+    statsDiv.innerHTML = "";
+    Object.entries(emotionCounts).forEach(([emotion, count]) => {
+      const stars = "★".repeat(Math.min(count, 5));
+      statsDiv.innerHTML += `
+      <div class="text-center">
+        <div class="text-lg font-bold text-yellow-400">${stars}</div>
+        <div class="capitalize">${emotion}</div>
+        <div class="text-blue-600">${count}</div>
+      </div>
+    `;
+    });
+  }
+
+  
+
   // UI Elements
   const dominantValueEl = document.getElementById("dominant-value");
   const rewardEffectEl = document.getElementById("reward-effect");
@@ -53,19 +101,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function updateTimer() {
     if (!classStartTime) return;
-    
+
     const now = Date.now();
     const diff = now - classStartTime;
     const hours = Math.floor(diff / 3600000);
     const minutes = Math.floor((diff % 3600000) / 60000);
     const seconds = Math.floor((diff % 60000) / 1000);
-    
-    timerDisplay.textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+    timerDisplay.textContent = `${String(hours).padStart(2, "0")}:${String(
+      minutes
+    ).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
   }
 
   function toggleClass() {
     isClassActive = !isClassActive;
-    
+
     if (isClassActive) {
       // Start class
       classStartTime = Date.now();
@@ -116,7 +166,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function checkAttendance() {
     const now = Date.now();
     const timeSinceLastDetection = now - lastFaceDetectionTime;
-    
+
     if (timeSinceLastDetection > 5000) {
       // No face detected for 5 seconds
       attendanceStatus.textContent = "Not Present";
@@ -127,7 +177,7 @@ document.addEventListener("DOMContentLoaded", () => {
       attendanceStatus.classList.remove("bg-red-500");
       attendanceStatus.classList.add("bg-blue-500");
     }
-    
+
     if (isClassActive) {
       attendanceStatus.classList.remove("hidden");
     } else {
@@ -140,38 +190,38 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!force && now - lastNotificationTime < 10000) return;
     lastNotificationTime = now;
 
-    let message = '';
-    switch(expression) {
-      case 'happy':
-        message = 'Ekspresi dominan: SENANG';
+    let message = "";
+    switch (expression) {
+      case "happy":
+        message = "Ekspresi dominan: SENANG";
         break;
-      case 'angry':
-        message = 'Ekspresi dominan: MARAH';
+      case "angry":
+        message = "Ekspresi dominan: MARAH";
         break;
-      case 'neutral':
-        message = 'Ekspresi dominan: NETRAL';
+      case "neutral":
+        message = "Ekspresi dominan: NETRAL";
         break;
-      case 'sad':
-        message = 'Ekspresi dominan: SEDIH';
+      case "sad":
+        message = "Ekspresi dominan: SEDIH";
         break;
-      case 'surprised':
-        message = 'Ekspresi dominan: TERKEJUT';
+      case "surprised":
+        message = "Ekspresi dominan: TERKEJUT";
         break;
-      case 'fearful':
-        message = 'Ekspresi dominan: TAKUT';
+      case "fearful":
+        message = "Ekspresi dominan: TAKUT";
         break;
-      case 'disgusted':
-        message = 'Ekspresi dominan: JIJIK';
+      case "disgusted":
+        message = "Ekspresi dominan: JIJIK";
         break;
       default:
         message = `Ekspresi dominan: ${expression}`;
     }
 
-    notificationEl.querySelector('p').textContent = message;
-    notificationEl.classList.remove('hidden');
-    
+    notificationEl.querySelector("p").textContent = message;
+    notificationEl.classList.remove("hidden");
+
     setTimeout(() => {
-      notificationEl.classList.add('hidden');
+      notificationEl.classList.add("hidden");
     }, 2500);
   }
 
@@ -186,8 +236,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function checkBoredState(expression) {
     if (!isClassActive) return;
-    
-    if (expression === 'neutral' || expression === 'sad') {
+
+    if (expression === "neutral" || expression === "sad") {
       boredCounter++;
       if (boredCounter >= 10) {
         const now = Date.now();
@@ -204,21 +254,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function getExpressionColor(expression) {
     switch (expression) {
-      case 'happy':
-        return 'text-yellow-400';
-      case 'sad':
-        return 'text-blue-400';
-      case 'angry':
-        return 'text-red-400';
-      case 'surprised':
-        return 'text-purple-400';
-      case 'fearful':
-        return 'text-orange-400';
-      case 'disgusted':
-        return 'text-green-400';
-      case 'neutral':
+      case "happy":
+        return "text-yellow-400";
+      case "sad":
+        return "text-blue-400";
+      case "angry":
+        return "text-red-400";
+      case "surprised":
+        return "text-purple-400";
+      case "fearful":
+        return "text-orange-400";
+      case "disgusted":
+        return "text-green-400";
+      case "neutral":
       default:
-        return 'text-gray-200';
+        return "text-gray-200";
     }
   }
 
@@ -291,16 +341,16 @@ document.addEventListener("DOMContentLoaded", () => {
     if (detections.length > 0) {
       lastFaceDetectionTime = Date.now();
     }
-    
+
     checkAttendance();
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const resizedDetections = faceapi.resizeResults(detections, displaySize);
 
-    resizedDetections.forEach(det => {
+    resizedDetections.forEach((det) => {
       const box = det.detection.box;
       ctx.save();
-      ctx.strokeStyle = '#00FF00';
+      ctx.strokeStyle = "#00FF00";
       ctx.lineWidth = 2;
       ctx.strokeRect(box.x, box.y, box.width, box.height);
       ctx.restore();
@@ -319,7 +369,7 @@ document.addEventListener("DOMContentLoaded", () => {
           const expr = result.expressions;
           const sorted = Object.entries(expr).sort((a, b) => b[1] - a[1]);
           const [topName] = sorted[0];
-          ctx.font = 'bold 22px Inter';
+          ctx.font = "bold 22px Inter";
           ctx.textAlign = "center";
           ctx.fillStyle = "#fff";
           ctx.strokeStyle = "#222";
@@ -331,7 +381,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (showAge && result.age) {
-          ctx.font = 'bold 18px Inter';
+          ctx.font = "bold 18px Inter";
           ctx.textAlign = "center";
           ctx.fillStyle = "#ffd700";
           ctx.strokeStyle = "#222";
@@ -352,6 +402,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (expressionCounters.hasOwnProperty(topExpression[0])) {
         expressionCounters[topExpression[0]]++;
+        // Tambahkan baris berikut untuk update emotionCounts
+        if (emotionCounts.hasOwnProperty(topExpression[0])) {
+          emotionCounts[topExpression[0]]++;
+          updateEmotionStats();
+        }
       }
 
       checkBoredState(topExpression[0]);
@@ -383,16 +438,27 @@ document.addEventListener("DOMContentLoaded", () => {
         .join("");
 
       const dominant = getDominantExpression();
-      dominantValueEl.textContent = dominant !== "-" ? dominant.toUpperCase() : "-";
+      dominantValueEl.textContent =
+        dominant !== "-" ? dominant.toUpperCase() : "-";
       dominantValueEl.className = `text-3xl font-bold text-center text-blue-600 transition-all duration-300`;
     });
 
     requestAnimationFrame(detect);
-  }
+  } 
 
   clearLogBtn.addEventListener("click", () => {
     expressionLogs.length = 0;
     logListEl.innerHTML = "";
+
+    // Reset summary ekspresi
+    Object.keys(expressionCounters).forEach(key => expressionCounters[key] = 0);
+
+    // Reset statistik bintang
+    Object.keys(emotionCounts).forEach(key => emotionCounts[key] = 0);
+
+    // Update tampilan statistik dan summary
+    updateEmotionStats();
+    showClassSummary();
   });
 
   video.addEventListener("play", () => {
@@ -403,28 +469,32 @@ document.addEventListener("DOMContentLoaded", () => {
   toggleAgeBtn.addEventListener("click", () => {
     showAge = !showAge;
     toggleAgeBtn.textContent = showAge ? "Hide Age" : "Show Age";
-    toggleAgeBtn.classList.toggle('bg-gray-500');
-    toggleAgeBtn.classList.toggle('hover:bg-gray-600');
-    toggleAgeBtn.classList.toggle('bg-blue-500');
-    toggleAgeBtn.classList.toggle('hover:bg-blue-600');
+    toggleAgeBtn.classList.toggle("bg-gray-500");
+    toggleAgeBtn.classList.toggle("hover:bg-gray-600");
+    toggleAgeBtn.classList.toggle("bg-blue-500");
+    toggleAgeBtn.classList.toggle("hover:bg-blue-600");
   });
 
   toggleLandmarksBtn.addEventListener("click", () => {
     showLandmarks = !showLandmarks;
-    toggleLandmarksBtn.textContent = showLandmarks ? "Hide Landmarks" : "Show Landmarks";
-    toggleLandmarksBtn.classList.toggle('bg-gray-500');
-    toggleLandmarksBtn.classList.toggle('hover:bg-gray-600');
-    toggleLandmarksBtn.classList.toggle('bg-blue-500');
-    toggleLandmarksBtn.classList.toggle('hover:bg-blue-600');
+    toggleLandmarksBtn.textContent = showLandmarks
+      ? "Hide Landmarks"
+      : "Show Landmarks";
+    toggleLandmarksBtn.classList.toggle("bg-gray-500");
+    toggleLandmarksBtn.classList.toggle("hover:bg-gray-600");
+    toggleLandmarksBtn.classList.toggle("bg-blue-500");
+    toggleLandmarksBtn.classList.toggle("hover:bg-blue-600");
   });
 
   toggleExpressionsBtn.addEventListener("click", () => {
     showExpressions = !showExpressions;
-    toggleExpressionsBtn.textContent = showExpressions ? "Hide Expressions" : "Show Expressions";
-    toggleExpressionsBtn.classList.toggle('bg-gray-500');
-    toggleExpressionsBtn.classList.toggle('hover:bg-gray-600');
-    toggleExpressionsBtn.classList.toggle('bg-blue-500');
-    toggleExpressionsBtn.classList.toggle('hover:bg-blue-600');
+    toggleExpressionsBtn.textContent = showExpressions
+      ? "Hide Expressions"
+      : "Show Expressions";
+    toggleExpressionsBtn.classList.toggle("bg-gray-500");
+    toggleExpressionsBtn.classList.toggle("hover:bg-gray-600");
+    toggleExpressionsBtn.classList.toggle("bg-blue-500");
+    toggleExpressionsBtn.classList.toggle("hover:bg-blue-600");
   });
 
   toggleClassBtn.addEventListener("click", toggleClass);
