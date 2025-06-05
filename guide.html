@@ -34,7 +34,7 @@
       
       /* Desktop styles */
       @media (min-width: 768px) {
-        .nav-toggle { display: none; }
+        .nav-toggle { display: none !important; }
         .nav-desktop { display: flex; }
       }
       
@@ -120,7 +120,7 @@
       .hidden { display: none; }
     </style>
   </head>
-  <body class="min-h-screen bg-gradient-to-br text-blue-900 font-sans">
+  <body class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50 text-blue-900 font-sans">
     <!-- Navbar -->
     <nav class="bg-white shadow-sm border-b border-blue-100 sticky top-0 z-50">
       <div class="container mx-auto px-4 py-4 flex justify-between items-center">
@@ -131,12 +131,11 @@
           </h1>
         </div>
         
-        <!-- Mobile menu button - Always visible for testing -->
+        <!-- Mobile menu button - Only visible on mobile -->
         <button
           id="nav-toggle"
           class="nav-toggle text-blue-600 focus:outline-none"
           aria-label="Open Menu"
-          style="display: block; background: #eff6ff; padding: 0.5rem; border-radius: 0.5rem; border: 2px solid #2563eb;"
         >
           <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
@@ -177,12 +176,26 @@
             mengakses kamera. Tekan
             <span class="font-semibold">Izinkan</span> agar aplikasi dapat
             menganalisis ekspresi wajah Anda.
+            <div class="my-3 flex justify-center">
+            <img
+                src="izin-kamera.jpg"
+                alt="Setting izin kamera di perangkat"
+                class="rounded-lg border border-blue-200 shadow w-64 max-w-full"
+              />
+            </div>
           </li>
           <li>
             <span class="font-semibold text-blue-600">Jika Kamera Tidak Muncul:</span>
             <br />Jika kamera tetap tidak aktif, buka
             <span class="font-semibold">Pengaturan &gt; Aplikasi &gt; EmoRadar &gt; Izin</span>
             lalu pastikan <span class="font-semibold">Kamera</span> sudah diizinkan.
+            <div class="my-3 flex justify-center">
+            <img
+                src="setting-izin-kamera.jpg"
+                alt="Setting izin kamera di perangkat"
+                class="rounded-lg border border-blue-200 shadow w-64 max-w-full"
+              />
+            </div>
           </li>
           <li>
             <span class="font-semibold text-blue-600">Mulai Kelas:</span>
