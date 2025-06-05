@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EmoRadar - User Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
+    <style>
+      /* Inline Tailwind-like styles for better compatibility */
+      .container { max-width: 1200px; margin: 0 auto; }
+      .bg-gradient-to-br { background: linear-gradient(to bottom right, #dbeafe, #ffffff, #dbeafe); }
+      .bg-gradient-to-r { background: linear-gradient(to right, #2563eb, #60a5fa); }
+      .bg-clip-text { -webkit-background-clip: text; background-clip: text; }
+      .text-transparent { color: transparent; }
+      .shadow-sm { box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
+      .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+      .rounded-2xl { border-radius: 1rem; }
+      .rounded-lg { border-radius: 0.5rem; }
+      .sticky { position: sticky; }
+      .top-0 { top: 0; }
+      .z-50 { z-index: 50; }
+      
+      /* Mobile-first approach */
+      .nav-toggle { display: block; }
+      .nav-desktop { display: none; }
+      .nav-mobile { display: none; }
+      .nav-mobile.show { display: block; }
+      
+      /* Desktop styles */
+      @media (min-width: 768px) {
+        .nav-toggle { display: none; }
+        .nav-desktop { display: flex; }
+      }
+      
+      @keyframes fadeInUp {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .animate-fade-in-up {
+        animation: fadeInUp 0.3s ease-out forwards;
+      }
+      
+      /* Color classes */
+      .text-blue-900 { color: #1e3a8a; }
+      .text-blue-700 { color: #1d4ed8; }
+      .text-blue-600 { color: #2563eb; }
+      .text-blue-500 { color: #3b82f6; }
+      .bg-blue-50 { background-color: #eff6ff; }
+      .bg-blue-500 { background-color: #3b82f6; }
+      .bg-blue-600 { background-color: #2563eb; }
+      .bg-white { background-color: #ffffff; }
+      .text-white { color: #ffffff; }
+      .border-blue-100 { border-color: #dbeafe; }
+      .border-blue-200 { border-color: #bfdbfe; }
+      
+      /* Spacing and layout */
+      .min-h-screen { min-height: 100vh; }
+      .px-4 { padding-left: 1rem; padding-right: 1rem; }
+      .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+      .py-8 { padding-top: 2rem; padding-bottom: 2rem; }
+      .p-8 { padding: 2rem; }
+      .mx-auto { margin-left: auto; margin-right: auto; }
+      .mb-4 { margin-bottom: 1rem; }
+      .mt-8 { margin-top: 2rem; }
+      .my-3 { margin-top: 0.75rem; margin-bottom: 0.75rem; }
+      .max-w-2xl { max-width: 42rem; }
+      .max-w-full { max-width: 100%; }
+      .w-7 { width: 1.75rem; }
+      .h-7 { height: 1.75rem; }
+      .w-64 { width: 16rem; }
+      
+      /* Flexbox */
+      .flex { display: flex; }
+      .items-center { align-items: center; }
+      .justify-between { justify-content: space-between; }
+      .justify-center { justify-content: center; }
+      .space-x-2 > * + * { margin-left: 0.5rem; }
+      .space-x-6 > * + * { margin-left: 1.5rem; }
+      .space-y-4 > * + * { margin-top: 1rem; }
+      
+      /* Typography */
+      .font-sans { font-family: 'Inter', sans-serif; }
+      .font-medium { font-weight: 500; }
+      .font-semibold { font-weight: 600; }
+      .font-bold { font-weight: 700; }
+      .text-xl { font-size: 1.25rem; }
+      .text-2xl { font-size: 1.5rem; }
+      .text-3xl { font-size: 1.875rem; }
+      .text-lg { font-size: 1.125rem; }
+      
+      /* Lists */
+      .list-decimal { list-style-type: decimal; }
+      .pl-6 { padding-left: 1.5rem; }
+      
+      /* Interactive */
+      .hover\:underline:hover { text-decoration: underline; }
+      .hover\:bg-blue-600:hover { background-color: #2563eb; }
+      .transition-colors { transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out; }
+      .focus\:outline-none:focus { outline: none; }
+      
+      /* Borders */
+      .border { border-width: 1px; }
+      .border-b { border-bottom-width: 1px; }
+      
+      /* Display utilities */
+      .block { display: block; }
+      .inline-block { display: inline-block; }
+      .hidden { display: none; }
+    </style>
+  </head>
+  <body class="min-h-screen bg-gradient-to-br text-blue-900 font-sans">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-sm border-b border-blue-100 sticky top-0 z-50">
+      <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+        <div class="flex items-center space-x-2">
+          <span class="text-3xl">📷</span>
+          <h1 class="text-xl font-bold bg-gradient-to-r bg-clip-text text-transparent" style="background: linear-gradient(to right, #2563eb, #60a5fa); -webkit-background-clip: text; color: transparent;">
+            EmoRadar
+          </h1>
+        </div>
+        
+        <!-- Mobile menu button - Always visible for testing -->
+        <button
+          id="nav-toggle"
+          class="nav-toggle text-blue-600 focus:outline-none"
+          aria-label="Open Menu"
+          style="display: block; background: #eff6ff; padding: 0.5rem; border-radius: 0.5rem; border: 2px solid #2563eb;"
+        >
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+        
+        <!-- Desktop nav -->
+        <div class="nav-desktop space-x-6">
+          <a href="index.html" class="text-blue-600 hover:underline font-medium">Home</a>
+          <a href="guide.html" class="text-blue-600 hover:underline font-medium">Guide</a>
+          <a href="about.html" class="text-blue-600 hover:underline font-medium">About</a>
+        </div>
+      </div>
+      
+      <!-- Mobile nav links -->
+      <div id="mobile-nav" class="nav-mobile px-4" style="background: #f8fafc; border-top: 1px solid #e2e8f0;">
+        <a href="index.html" class="block py-4 text-blue-600 hover:underline font-medium" style="border-bottom: 1px solid #e2e8f0;">Home</a>
+        <a href="guide.html" class="block py-4 text-blue-600 hover:underline font-medium" style="border-bottom: 1px solid #e2e8f0;">Guide</a>
+        <a href="about.html" class="block py-4 text-blue-600 hover:underline font-medium">About</a>
+      </div>
+    </nav>
+
+    <!-- Guide Content -->
+    <main class="container mx-auto px-4 py-8">
+      <div class="bg-white rounded-2xl shadow-lg border border-blue-200 p-8 max-w-2xl mx-auto animate-fade-in-up">
+        <h2 class="text-2xl font-bold mb-4 text-blue-700">
+          Panduan Penggunaan EmoRadar
+        </h2>
+        <ol class="list-decimal pl-6 space-y-4 text-lg">
+          <li>
+            <span class="font-semibold text-blue-600">Buka Aplikasi:</span>
+            <br />Pastikan aplikasi EmoRadar sudah terinstall di perangkat Anda
+            dan buka aplikasi tersebut.
+          </li>
+          <li>
+            <span class="font-semibold text-blue-600">Izinkan Akses Kamera:</span>
+            <br />Saat pertama kali dijalankan, aplikasi akan meminta izin untuk
+            mengakses kamera. Tekan
+            <span class="font-semibold">Izinkan</span> agar aplikasi dapat
+            menganalisis ekspresi wajah Anda.
+          </li>
+          <li>
+            <span class="font-semibold text-blue-600">Jika Kamera Tidak Muncul:</span>
+            <br />Jika kamera tetap tidak aktif, buka
+            <span class="font-semibold">Pengaturan &gt; Aplikasi &gt; EmoRadar &gt; Izin</span>
+            lalu pastikan <span class="font-semibold">Kamera</span> sudah diizinkan.
+          </li>
+          <li>
+            <span class="font-semibold text-blue-600">Mulai Kelas:</span>
+            <br />Tekan tombol
+            <span class="font-semibold">Start Class</span> untuk memulai sesi
+            analisis ekspresi. Kamera akan aktif dan mendeteksi wajah secara
+            real-time.
+          </li>
+          <li>
+            <span class="font-semibold text-blue-600">Lihat Statistik Emosi:</span>
+            <br />Statistik emosi Anda akan muncul di bagian
+            <span class="font-semibold">Statistik Emosi</span> dan
+            <span class="font-semibold">Dominant Expression</span> di layar.
+          </li>
+          <li>
+            <span class="font-semibold text-blue-600">Gunakan Kontrol:</span>
+            <br />Anda dapat menyembunyikan/menampilkan informasi usia,
+            landmarks, dan ekspresi dengan tombol
+            <span class="font-semibold">Controls</span>.
+          </li>
+          <li>
+            <span class="font-semibold text-blue-600">Akhiri Kelas:</span>
+            <br />Tekan tombol
+            <span class="font-semibold">End Class</span> untuk mengakhiri sesi.
+          </li>
+          <li>
+            <span class="font-semibold text-blue-600">Cek Log Ekspresi:</span>
+            <br />Riwayat ekspresi wajah Anda selama sesi dapat dilihat di
+            bagian <span class="font-semibold">Expression Log</span>.
+          </li>
+        </ol>
+        <div class="mt-8" style="text-align: center;">
+          <a
+            href="index.html"
+            class="inline-block px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
+            style="padding: 0.75rem 1.5rem; background-color: #3b82f6; color: white; border-radius: 0.5rem; text-decoration: none;"
+          >Kembali ke Beranda</a>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        console.log("DOM loaded, setting up nav toggle");
+        
+        const navToggle = document.getElementById("nav-toggle");
+        const mobileNav = document.getElementById("mobile-nav");
+        
+        if (navToggle && mobileNav) {
+          console.log("Nav elements found");
+          
+          navToggle.addEventListener("click", function() {
+            console.log("Nav toggle clicked");
+            mobileNav.classList.toggle("show");
+            
+            // Change icon based on state
+            const svg = navToggle.querySelector('svg');
+            if (mobileNav.classList.contains('show')) {
+              // Change to X icon
+              svg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />';
+            } else {
+              // Change back to hamburger
+              svg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />';
+            }
+          });
+        } else {
+          console.log("Nav elements not found");
+        }
+      });
+    </script>
+  </body>
+</html>
